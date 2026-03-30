@@ -1,19 +1,16 @@
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        Product product1 = new Product();
+        HashMap<Integer, String> l = new HashMap<Integer, String>();
+        l.put(42,"dsf");
+        Product product1 = new Elcetronic("Комп",42,l);
+        Product product2 = new Elcetronic("телефон",42,l);
+        Product product3 = new Elcetronic("Эпштейн",142,l);
 
-        System.out.println(product1.getTitle());
-        System.out.println(product1.getPrice());
-        System.out.println(product1.getId());
+        System.out.println(product1);
+        System.out.println(product2);
+        System.out.println(product3);
 
-
-        product1.setTitle("Ваыва");
-        product1.setPrice(142);
-        product1.setId(1);
-
-        System.out.println(product1.getTitle());
-        System.out.println(product1.getPrice());
-        System.out.println(product1.getId());
     }
 }

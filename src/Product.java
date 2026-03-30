@@ -1,19 +1,22 @@
 import java.util.HashMap;
 
-public abstract class Product {
-    private long id;
+public class Product {
+    private  long id = 1;
+    private static long counter = 0;
     private String title;
     private double price;
     private HashMap<Integer, String> category;
 
-//    Product(){}
 
-    Product(long id, String title, double price, HashMap<Integer, String> category) {
-        this.id = id;
+    Product(String title, double price, HashMap<Integer, String> category) {
+        this.id += this.counter;
+        this.counter++;
         this.title = title;
         this.price = price;
         this.category = category;
     }
+
+    public Product() {}
 
 
     public long getId(){
@@ -31,9 +34,6 @@ public abstract class Product {
         return this.category;
     }
 
-    public void setId(long setId){
-        this.id = setId;
-    }
 
     public void setTitle(String setTitle){
         this.title = setTitle;
@@ -47,6 +47,9 @@ public abstract class Product {
         this.category = category;
     }
 
+    public void view(){
+        System.out.printf("Id - ");
+    }
 
 
 }
