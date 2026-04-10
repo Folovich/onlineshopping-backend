@@ -1,14 +1,26 @@
-import java.util.HashMap;
-
 public class Main {
     public static void main(String[] args) {
-        HashMap<Integer, String> l = new HashMap<Integer, String>();
-        l.put(42,"dsf");
-        // String title, double price, HashMap<Integer, String> category
-        Product product42 = new Category("Комп", 42, l) ;
 
-        product42.addCategory(1,"Зубачситки");
-        product42.addCategory(2,"машины");
-        product42.showCategory();
+        Catalog electronics = new Catalog("electronics");
+        Catalog cars = new Catalog("cars");
+
+        Category phones = electronics.addSubCategory("Телефоны");
+
+        Electronic iphone = new Electronic("iPhone 42", 1000);
+        Electronic samsung = new Electronic("S42 Ultra", 1000);
+
+        Electronic as = new Electronic("iPhone 42", 11);
+        Electronic asd = new Electronic("S42 Ultra", 32);
+
+
+        phones.addProduct(iphone);
+        phones.addProduct(samsung);
+
+        electronics.showStats();
+        phones.showCategoryProducts();
+
+        System.out.println(iphone.equals(samsung));
+        System.out.println(as.equals(asd));
+        Catalog.showCategories();
     }
 }

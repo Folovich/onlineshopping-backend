@@ -1,55 +1,51 @@
 import java.util.HashMap;
+import java.util.Objects;
 
-public class Product {
-    private  long id = 1;
+public abstract class Product {
+    private long id;
     private static long counter = 0;
     private String title;
     private double price;
-    private HashMap<Integer, String> category;
 
-
-    Product(String title, double price, HashMap<Integer, String> category) {
-        this.id += this.counter;
-        this.counter++;
+    public Product(String title, double price) {
+        this.id = ++counter;
         this.title = title;
         this.price = price;
-        this.category = category;
     }
 
-    public Product() {}
-
-
-    public long getId(){
-        return this.id;
+    public Product() {
+        this.id = ++counter;
     }
 
-    public String getTitle(){
-        return this.title;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public double getPrice(){
-        return this.price;
-    }
-    public HashMap<Integer, String> getCategory(){
-        return this.category;
+    public double getPrice() {
+        return price;
     }
 
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setTitle(String setTitle){
-        this.title = setTitle;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Double.compare(price, product.price) == 0;
     }
 
-    public void setPrice(double setPrice){
-        this.price = setPrice;
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(price);
     }
 
-    public void setCategory(HashMap<Integer,String> category){
-        this.category = category;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                '}';
     }
-
-    public void view(){
-        System.out.printf("Id - ");
-    }
-
-
 }
