@@ -7,7 +7,7 @@ public class SubCategory extends Product {
     private static int counter = 0;
     private int id;
     public SubCategory(String title) {
-        super(title, 0);
+        super(title, 0,0);
         this.products = new ArrayList<>();
         this.id = counter;
         counter++;
