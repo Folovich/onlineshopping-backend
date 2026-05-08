@@ -1,39 +1,48 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Catalog implements Comparable<Catalog>{
+public class Category implements Comparable<Category>{
     private String catalogName;
 
-    private List<Category> subCategories;
-    private static int totalCatalogs = 0;
+    private List<SubCategory> subCategories;
+    private static int totalCategory = 0;
     private int subCount = 0;
     private int id = 0;
 
-    public Catalog(String name) {
+    public Category(String name) {
         this.catalogName = name;
         this.subCategories = new ArrayList<>();
-        totalCatalogs++;
-        this.id = totalCatalogs;
+        totalCategory++;
+        this.id = totalCategory;
     }
 
+    public void viewSubCategory(){
+        System.out.println("----- Все категории -----");
+        int counter = 1;
+        System.out.println("0. ВЫХОД");
+        for(SubCategory er : subCategories){
+            System.out.println(counter + ". " + er.getTitle());
+            counter++;
+        }
+    }
     @Override
-    public int compareTo(Catalog other) {
+    public int compareTo(Category other) {
         return Integer.compare(this.id, other.id);
     }
 
-    public Category getSub(int id){
-        return id;
+    public SubCategory getSub(int id){
+        return subCategories.get(id);
     }
 
     public void addSubCategory(String name) {
-        Category newCat = new Category(name);
+        SubCategory newCat = new SubCategory(name);
         subCategories.add(newCat);
         subCount++;
     }
 
     public void showStats() {
         System.out.println("Каталог: " + catalogName);
-        System.out.println("Всего каталогов: " + totalCatalogs);
+        System.out.println("Всего каталогов: " + totalCategory);
         System.out.println("Подкатегорий в '" + catalogName + "': " + subCount);
     }
 
