@@ -2,15 +2,17 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Product implements Payable, Comparable<Product> {
+    private static int quant;
     private long id;
     private static long counter = 0;
     private String title;
     private double price;
     private boolean paid = false;
-    public Product(String title, double price) {
+    public Product(String title, double price, int quant) {
         this.id = ++counter;
         this.title = title;
         this.price = price;
+        this.quant = quant;
     }
 
     public Product() {

@@ -6,49 +6,37 @@ public class Menu {
     static Catalog catalog42 = new Catalog();
     static Scanner scanner = new Scanner(System.in);
 
-    // В обычном main просто запускаем логику
-    public static void main(String[] args) {
-        // Подготовка данных
+    public static void start() {
+        // ДОБАВЛЯЕМ КАТАЛОГИ И ТД
         catalog42.addCategory(new Category("electronics"));
         catalog42.addCategory(new Category("cars"));
+        //
+        Map<Integer, Command> actions = new HashMap<>();
 
-        runApp(); // Запуск основного цикла
-    }
-
-    static void runApp() {
-        // Карта действий на основе нашего интерфейса
-        Map<Integer, MenuAction> actions = new HashMap<>();
-
-        // Наполняем лямбдами
-        actions.put(1, () -> mainCatalog());
-        actions.put(2, () -> System.out.println("Личный кабинет"));
-        actions.put(3, () -> System.out.println("Корзина пуста"));
+        actions.put(1, () -> showCatalog());
+        actions.put(2, () -> System.out.println("Раздел 'Аккаунт' в разработке"));
+        actions.put(3, () -> System.out.println("Корзина пока пуста"));
         actions.put(4, () -> System.exit(0));
 
         while (true) {
             System.out.println("\n1. Каталог | 2. Аккаунт | 3. Корзина | 4. Выход");
             int choice = scanner.nextInt();
 
-            // Извлекаем действие и запускаем наш метод execute()
-            MenuAction action = actions.get(choice);
-            if (action != null) {
-                action.execute();
+            if (actions.containsKey(choice)) {
+                actions.get(choice).execute();
             } else {
-                System.out.println("Нет такого пункта");
+                System.out.println("Ошибка: выберите от 1 до 4");
             }
         }
     }
 
-    static void mainCatalog() {
+    static void showCatalog() {
         catalog42.viewAllCategory();
-        System.out.println("0. Назад");
+        System.out.println("Введите номер категории (0 для выхода):");
         int choice = scanner.nextInt();
-        if (choice != 0) mainCategory(choice);
+        if (choice != 0) {
+            catalog42.getCategory(choice).showStats();
+        }
     }
 
-    static void mainCategory(int i) {
-        catalog42.getCategory(i).showStats();
-        System.out.println("0. Назад");
-        while (scanner.nextInt() != 0);
-    }
 }
