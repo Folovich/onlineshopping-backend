@@ -17,7 +17,7 @@ public class Category implements Comparable<Category>{
     }
 
     public void viewSubCategory(){
-        System.out.println("----- Все категории -----");
+        System.out.println("----- Все саб-категории -----");
         int counter = 1;
         System.out.println("0. ВЫХОД");
         for(SubCategory er : subCategories){

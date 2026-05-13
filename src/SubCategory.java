@@ -12,7 +12,19 @@ public class SubCategory extends Product {
         this.id = counter;
         counter++;
     }
-
+    public void viewProduct(){
+        System.out.println("----- Все Продукты -----");
+        int counter = 1;
+        System.out.println("0. ВЫХОД");
+        for(Product er : products){
+            System.out.println(counter + ". " + er.getTitle());
+            counter++;
+        }
+    }
+    public void addProduct(String title, double price, int quant){
+        Product newCat = new Product(title, price, quant);
+        products.add(newCat);
+    }
     public void sortName() {
         // Используем стандартный compareTo из класса Product
         Collections.sort(products);
