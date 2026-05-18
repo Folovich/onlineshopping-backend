@@ -55,6 +55,8 @@ public class Product implements Payable, Comparable<Product> {
         return price;
     }
 
+    public static int getQuant() {return quant;}
+
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 

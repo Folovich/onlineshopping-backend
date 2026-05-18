@@ -1,5 +1,4 @@
 public interface Financable {
-    double checkBalance();
-    boolean havelsNowMoney(double amount);
+    double pay();
     String getFinancialStatus();
 }
