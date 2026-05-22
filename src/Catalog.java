@@ -2,14 +2,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Catalog{
-    private static int totalCategory = 0;
     private static List<Category> CategoryArr;
+    private  static Catalog instance;
+    public Catalog(){}
 
-    public Catalog(){CategoryArr = new ArrayList<>();}
+    public static Catalog getInstance(){
+        if(instance == null){
+            CategoryArr = new ArrayList<>();
+            instance = new Catalog();
+        }
+        return instance;
+    }
 
     public void addCategory(Category cat){
         CategoryArr.add(cat);
-        totalCategory++;
     }
 
     public Category getCategory(int id){

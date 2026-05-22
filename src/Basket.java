@@ -6,23 +6,24 @@ public class Basket {
     private  ArrayList<Object> list = new ArrayList<>();
     private  ArrayList<Object> listPaid = new ArrayList<>();
     private  int money;
-    private User owner;
-    public Basket(User owner){
+    private UserSystem owner;
+    public Basket(UserSystem owner){
         this.owner = owner;
+        this.products = new ArrayList<>();
     }
     public void add(String title, Product product){
         list.add(title);
         list.add(product);
+        this.products.add(product);
     }
 
-    public void pay(){
+    public String pay(){
         int cost = 0;
         for (Product er : products){
             cost += (er.getPrice() * er.getQuant());
         }
         if(owner.getBalance() < cost){
-            System.out.println("Недостаточно баланса");
-            return;
+            return "Недостаточно баланса";
         }
         owner.setBalance(-cost);
         for (int i = 0; i < list.size() - 1; i += 2){
@@ -30,6 +31,7 @@ public class Basket {
             listPaid.add(list.get(i + 1));
         }
         list.clear();
+        return "Успешная покупка";
     }
 
     public void check(){
