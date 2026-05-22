@@ -1,16 +1,15 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Menu {
+public final class Menu {
 
-    static Catalog catalog42 = new Catalog();
-    static Scanner scanner = new Scanner(System.in);
+    static final Catalog catalog42 = Catalog.getInstance();
+    static final Scanner scanner = new Scanner(System.in);
 
 
-    static User currentUser = new User(TypeUser.GUEST);
-    static HashMap<String, User> users = new HashMap<>();
+    static final UserSystem systemUser = new UserSystem(TypeUser.GUEST);
+
 
     public static void start() {
         // ДОБАВЛЯЕМ КАТАЛОГИ И ТД
@@ -65,10 +64,10 @@ public class Menu {
 
                     if(choiceFour != 0){
                         String tittle = catalog42.getCategory(choice - 1).getCatalogName() + " " + catalog42.getCategory(choice - 1).getSub(choiceTwo - 1).getTitle() ;
-                        if (currentUser.getType() == TypeUser.GUEST){
+                        if (UserSystem.getCurrentUser().getType() == TypeUser.GUEST){
                             System.out.println("Вы гость, зайдите в аккаунт.");
                         }else{
-                            currentUser.getBasket().add(tittle,catalog42.getCategory(choice - 1).getSub(choiceTwo - 1).getProduct(choiceTree - 1));
+                            UserSystem.getCurrentUser().getBasket().add(tittle,catalog42.getCategory(choice - 1).getSub(choiceTwo - 1).getProduct(choiceTree - 1));
                         }
                     }
                 }
@@ -77,12 +76,12 @@ public class Menu {
     }
 
     static void showBasket(){
-        if(currentUser.getType() == TypeUser.USER){
-            currentUser.getBasket().check();
+        if(UserSystem.getCurrentUser().getType() == TypeUser.USER){
+            UserSystem.getCurrentUser().getBasket().check();
             System.out.println("0. Выход | 1. Оплатить");
             int choice = scanner.nextInt();
             if (choice != 0) {
-                currentUser.getBasket().pay();
+                System.out.println(UserSystem.getCurrentUser().getBasket().pay());
             }
         } else{
             System.out.println("Сначала войдите в аккаунт!");
@@ -91,7 +90,7 @@ public class Menu {
     }
 
     static void showUser() {
-        if (currentUser.getType() == TypeUser.GUEST) {
+        if (UserSystem.getCurrentUser().getType() == TypeUser.GUEST) {
 
             Map<Integer, Command> actionsAcc = new HashMap<>();
             actionsAcc.put(1, () -> createUser());
@@ -109,9 +108,9 @@ public class Menu {
                 }else{break;}
             }
         }else{
-            System.out.println(currentUser.toString());
+            System.out.println(UserSystem.getCurrentUser().toString());
             Map<Integer, Command> actionsAcc = new HashMap<>();
-            actionsAcc.put(1, () -> currentUser = new User(TypeUser.GUEST));
+            actionsAcc.put(1, () -> UserSystem.setCurrentUser(new UserSystem(TypeUser.GUEST)));
             actionsAcc.put(2, () -> refilSystem());
             while (true) {
                 System.out.println("0. Выход | 1. Выйти из аккаунта | 2. Пополнить баланс");
@@ -130,13 +129,13 @@ public class Menu {
     static void refilSystem(){
         System.out.println("Сумма пополнения: ");
         int money = scanner.nextInt();
-        currentUser.setBalance(money);
+        UserSystem.getCurrentUser().setBalance(money);
     }
     static void createUser(){
         scanner.nextLine();
         System.out.println("Введите имя: ");
         String name = scanner.nextLine();
-        if(users.containsKey(name)){
+        if(UserSystem.getUsers().containsKey(name)){
             System.out.println("Такое имя уже есть!");
             return;
         }
@@ -146,9 +145,7 @@ public class Menu {
         scanner.nextLine();
 
 
-        currentUser = new User(name,TypeUser.USER,passw);
-        users.put(name,currentUser);
-        System.out.println("вы успешно зашли " + currentUser.getName());
+        System.out.println(UserSystem.registr(name, passw));
     }
 
     static void loginUser(){
@@ -160,9 +157,9 @@ public class Menu {
         int passw = scanner.nextInt();
         scanner.nextLine();
 
-        if(users.containsKey(name)){
-            if(users.get(name).checkPasswd(passw)){
-                currentUser = users.get(name);
+        if(UserSystem.getUsers().containsKey(name)){
+            if(UserSystem.getUsers().get(name).checkPasswd(passw)){
+                UserSystem.setCurrentUser(UserSystem.getUsers().get(name));
             } else{
                 System.out.println("Неправильный пароль");
             }
