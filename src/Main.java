@@ -22,7 +22,6 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         Menu.start();
-
 //        List<Category> CatalogArr = new ArrayList<>();
 //
 //

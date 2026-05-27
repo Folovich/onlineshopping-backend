@@ -13,17 +13,10 @@ public final class Menu {
 
     public static void start() {
         // ДОБАВЛЯЕМ КАТАЛОГИ И ТД
-
-        catalog42.addCategory(new Category("electronics"));
-        catalog42.getCategory(0).addSubCategory("computer");
-        catalog42.getCategory(0).getSub(0).addProduct("HyperPc",100,1);
-
-        catalog42.addCategory(new Category("transport"));
-        catalog42.getCategory(1).addSubCategory("sport-car");
-        catalog42.getCategory(1).getSub(0).addProduct("Formula-1",100000,1);
+        Factory.addStandartCategory( Catalog.getInstance());
         //
-        Map<Integer, Command> actions = new HashMap<>();
 
+        Map<Integer, Command> actions = new HashMap<>();
         actions.put(1, () -> showCatalog());
         actions.put(2, () -> showUser());
         actions.put(3, () -> showBasket());
@@ -67,7 +60,7 @@ public final class Menu {
                         if (UserSystem.getCurrentUser().getType() == TypeUser.GUEST){
                             System.out.println("Вы гость, зайдите в аккаунт.");
                         }else{
-                            UserSystem.getCurrentUser().getBasket().add(tittle,catalog42.getCategory(choice - 1).getSub(choiceTwo - 1).getProduct(choiceTree - 1));
+                            UserSystem.getCurrentUser().getBasket().add(catalog42.getCategory(choice - 1).getSub(choiceTwo - 1).getProduct(choiceTree - 1));
                         }
                     }
                 }
@@ -77,11 +70,15 @@ public final class Menu {
 
     static void showBasket(){
         if(UserSystem.getCurrentUser().getType() == TypeUser.USER){
+            if(UserSystem.getCurrentUser().getBasket().getProducts().isEmpty()){
+                System.out.println("Корзина пуста");
+                return;
+            }
             UserSystem.getCurrentUser().getBasket().check();
             System.out.println("0. Выход | 1. Оплатить");
             int choice = scanner.nextInt();
             if (choice != 0) {
-                System.out.println(UserSystem.getCurrentUser().getBasket().pay());
+                UserSystem.getCurrentUser().getBasket().pay(scanner);
             }
         } else{
             System.out.println("Сначала войдите в аккаунт!");
@@ -112,8 +109,9 @@ public final class Menu {
             Map<Integer, Command> actionsAcc = new HashMap<>();
             actionsAcc.put(1, () -> UserSystem.setCurrentUser(new UserSystem(TypeUser.GUEST)));
             actionsAcc.put(2, () -> refilSystem());
+            actionsAcc.put(3, () -> showHistory());
             while (true) {
-                System.out.println("0. Выход | 1. Выйти из аккаунта | 2. Пополнить баланс");
+                System.out.println("0. Выход | 1. Выйти из аккаунта | 2. Пополнить баланс | 3. Посмотреть историю");
                 int choice = scanner.nextInt();
                 if(choice != 0){
                     if (actionsAcc.containsKey(choice)) {
@@ -126,10 +124,25 @@ public final class Menu {
             }
         }
     }
+    static void showHistory(){
+        if(UserSystem.getCurrentUser().getType() == TypeUser.GUEST){
+            System.out.println("История доступна только USER!");
+            return;
+        }
+        UserSystem.getCurrentUser().viewHistory();
+    }
     static void refilSystem(){
-        System.out.println("Сумма пополнения: ");
-        int money = scanner.nextInt();
-        UserSystem.getCurrentUser().setBalance(money);
+        System.out.println("0. Выход | 1. Пополнить карту. | 2. Пополнить кредитную карту");
+        int choice = scanner.nextInt();
+        if(choice == 1){
+            System.out.println("Сумма пополнения: ");
+            int money = scanner.nextInt();
+            UserSystem.getCurrentUser().setBalance(money);
+        } else if (choice == 2) {
+            System.out.println("Сумма пополнения кредитки: ");
+            int money = scanner.nextInt();
+            UserSystem.getCurrentUser().setCreditBalance(money);
+        }
     }
     static void createUser(){
         scanner.nextLine();

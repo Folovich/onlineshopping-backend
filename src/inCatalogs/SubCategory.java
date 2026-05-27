@@ -21,7 +21,7 @@ public class SubCategory extends Product {
             counter++;
         }
     }
-    public void addProduct(String title, double price, int quant){
+    public void addProduct(String title, int price, int quant){
         Product newCat = new Product(title, price, quant);
         products.add(newCat);
     }

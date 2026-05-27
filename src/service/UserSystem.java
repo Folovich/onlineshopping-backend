@@ -3,10 +3,12 @@ import java.util.*;
 public class UserSystem { ;
     private String name;
     private int balance;
+    private int creditBalance;
     private final TypeUser type;
     private int password;
-
+    private List<String> history;
     private Basket basket = new Basket(this);
+
 
     private static Map<String, UserSystem> users = new HashMap<>();
     private static UserSystem currentUser = new UserSystem(TypeUser.GUEST);
@@ -15,12 +17,16 @@ public class UserSystem { ;
         this.name = name;
         this.type = type;
         this.password = password;
+        this.creditBalance = 0;
+        this.balance = 0;
         users.put(name, this);
         this.basket = new Basket(this);
+        this.history = new ArrayList<>();
     }
 
     public UserSystem(TypeUser type) {
         this.type = type;
+        this.history = new ArrayList<>();
     }
 
     public static String registr(String name, int passw){
@@ -41,7 +47,16 @@ public class UserSystem { ;
         return users;
     }
 
-
+    public void viewHistory(){
+        if(history.isEmpty()){
+            System.out.println("История пуста");
+            return;
+        }
+        System.out.println("----- История -----");
+        for (String ec : history){
+            System.out.println(ec);
+        }
+    }
 
     public void setBalance(int money){
         this.balance += money;
@@ -59,6 +74,14 @@ public class UserSystem { ;
         return type;
     }
 
+    public List<String> getHistory() {
+        return history;
+    }
+
+    public int getCreditBalance() {
+        return creditBalance;
+    }
+
     public String getName() {
         return name;
     }
@@ -71,10 +94,15 @@ public class UserSystem { ;
         }
     }
 
+    public void setCreditBalance(int creditBalance) {
+        this.creditBalance += creditBalance;
+    }
+
     @Override
     public String toString() {
         return "Имя: " + name + "\n" +
                 "Баланс: " + balance + "\n" +
+                "Кредитный баданс " + creditBalance + "\n" +
                 "Тип учетной записи: " + type;
     }
 }
