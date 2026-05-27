@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Catalog{
     private static List<Category> CategoryArr;
-    private  static Catalog instance;
+    private static Catalog instance;
     public Catalog(){}
 
     public static Catalog getInstance(){

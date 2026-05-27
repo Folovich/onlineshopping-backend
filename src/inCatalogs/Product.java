@@ -6,17 +6,13 @@ public class Product implements Payable, Comparable<Product> {
     private long id;
     private static long counter = 0;
     private String title;
-    private double price;
+    private int price;
     private boolean paid = false;
-    public Product(String title, double price, int quant) {
+    public Product(String title, int price, int quant) {
         this.id = ++counter;
         this.title = title;
         this.price = price;
         this.quant = quant;
-    }
-
-    public Product() {
-        this.id = ++counter;
     }
 
     @Override
@@ -33,6 +29,7 @@ public class Product implements Payable, Comparable<Product> {
         paid = true;
         return amount - this.price;
     }
+
     @Override
     public double getFinalPrice(){
         return this.price;
@@ -43,19 +40,9 @@ public class Product implements Payable, Comparable<Product> {
         return paid;
     }
 
-
-
-
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
-
-    public static int getQuant() {return quant;}
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
